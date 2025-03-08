@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 10;
+    string res = "";  // Declare a string to store binary digits
+
+    if (n == 0) res = "0";  // Handle the special case where n = 0
+
+    while (n > 0) {
+        res += (n % 2 == 0) ? '0' : '1';  // Append '0' or '1' based on remainder
+        n /= 2;  // Divide n by 2
+    }
+
+    reverse(res.begin(), res.end());  // Reverse to get correct binary order
+    cout << res << endl;  // Print the binary representation
+
+    return 0;
+}
