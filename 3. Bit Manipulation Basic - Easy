@@ -1,0 +1,333 @@
+==================================================================================================
+1. Check if the i-th bit is set or not
+==================================================================================================
+
+#include <iostream>
+using namespace std;
+
+bool isBitSet(int num, int i) {
+    return (num & (1 << i)) != 0;
+}
+
+int main() {
+    int num = 5, i = 2; // 5 -> 101 in binary
+    cout << "Bit at position " << i << " is " << (isBitSet(num, i) ? "set" : "unset") << endl;
+    return 0;
+}
+
+==================================================================================================
+2. Check if a number is odd or not
+---------------------------------+
+
+#include <iostream>
+using namespace std;
+
+bool isOdd(int num) {
+    return (num & 1);
+}
+
+int main() {
+    int num = 7;
+    cout << num << " is " << (isOdd(num) ? "Odd" : "Even") << endl;
+    return 0;
+}
+
+
+==================================================================================================
+3. Check if a number is a power of 2 or not
+------------------------------------------+
+
+#include <iostream>
+using namespace std;
+
+bool isPowerOfTwo(int num) {
+    return (num > 0) && ((num & (num - 1)) == 0);
+}
+
+int main() {
+    int num = 8;
+    cout << num << " is " << (isPowerOfTwo(num) ? "a power of 2" : "not a power of 2") << endl;
+    return 0;
+}
+
+==================================================================================================
+4. Count the number of set bits
+------------------------------+
+
+#include <iostream>
+using namespace std;
+
+int countSetBits(int num) {
+    int count = 0;
+    while (num) {
+        count += (num & 1);
+        num >>= 1;
+    }
+    return count;
+}
+
+int main() {
+    int num = 13; // 1101 -> 3 set bits
+    cout << "Number of set bits in " << num << " is " << countSetBits(num) << endl;
+    return 0;
+}
+
+==================================================================================================
+5. Set/Unset the rightmost unset bit
+-----------------------------------+
+
+#include <iostream>
+using namespace std;
+
+int setRightmostUnsetBit(int num) {
+    return num | (num + 1);
+}
+
+int main() {
+    int num = 10; // 1010 -> 1011 (set the rightmost unset bit)
+    cout << "After setting the rightmost unset bit: " << setRightmostUnsetBit(num) << endl;
+    return 0;
+}
+
+==================================================================================================
+6. Swap two numbers using bitwise XOR
+------------------------------------+
+
+#include <iostream>
+using namespace std;
+
+void swapNumbers(int &a, int &b) {
+    a = a ^ b;
+    b = a ^ b;
+    a = a ^ b;
+}
+
+int main() {
+    int a = 5, b = 7;
+    cout << "Before Swap: a = " << a << ", b = " << b << endl;
+    swapNumbers(a, b);
+    cout << "After Swap: a = " << a << ", b = " << b << endl;
+    return 0;
+}
+
+==================================================================================================
+7. Divide two integers without using multiplication, division, and mod operator
+-------------------------------------------------------------------------------+
+
+#include <iostream>
+using namespace std;
+
+int divide(int dividend, int divisor) {
+    if (divisor == 0) {
+        cout << "Division by zero is not allowed!" << endl;
+        return -1;
+    }
+
+    bool isNegative = (dividend < 0) ^ (divisor < 0);
+    long long a = abs(dividend), b = abs(divisor), quotient = 0;
+
+    while (a >= b) {
+        long long temp = b, multiple = 1;
+        while (a >= (temp << 1)) {
+            temp <<= 1;
+            multiple <<= 1;
+        }
+        a -= temp;
+        quotient += multiple;
+    }
+
+    return isNegative ? -quotient : quotient;
+}
+
+int main() {
+    int dividend = 10, divisor = 3;
+    cout << "Result: " << divide(dividend, divisor) << endl;
+    return 0;
+}
+
+==================================================================================================
+1. Get, Set, Clear ith Bit
+-------------------------+
+
+#include <iostream>
+using namespace std;
+
+int getBit(int num, int i) {
+    return (num & (1 << i)) ? 1 : 0;
+}
+
+int setBit(int num, int i) {
+    return num | (1 << i);
+}
+
+int clearBit(int num, int i) {
+    return num & ~(1 << i);
+}
+
+int main() {
+    int num = 5, i = 1;  // 5 -> 101
+    cout << "Get bit at position " << i << ": " << getBit(num, i) << endl;
+    cout << "After setting bit at position " << i << ": " << setBit(num, i) << endl;
+    cout << "After clearing bit at position " << i << ": " << clearBit(num, i) << endl;
+    return 0;
+}
+
+==================================================================================================
+3. Number Complement
+-------------------+
+
+#include <iostream>
+using namespace std;
+
+int numberComplement(int num) {
+    int mask = 1;
+    while (mask <= num) {
+        mask = (mask << 1);
+    }
+    return (mask - 1) ^ num;
+}
+
+int main() {
+    int num = 5;  // 5 -> 101, complement -> 010 (2)
+    cout << "Complement: " << numberComplement(num) << endl;
+    return 0;
+}
+
+==================================================================================================
+4. Counting Bits
+---------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> countBits(int num) {
+    vector<int> result(num + 1, 0);
+    for (int i = 1; i <= num; i++) {
+        result[i] = result[i >> 1] + (i & 1);
+    }
+    return result;
+}
+
+int main() {
+    int num = 5;
+    vector<int> res = countBits(num);
+    cout << "Counting bits: ";
+    for (int x : res) cout << x << " ";
+    cout << endl;
+    return 0;
+}
+
+==================================================================================================
+6. Reverse Bits
+--------------+
+
+#include <iostream>
+using namespace std;
+
+uint32_t reverseBits(uint32_t n) {
+    uint32_t rev = 0;
+    for (int i = 0; i < 32; i++) {
+        rev = (rev << 1) | (n & 1);
+        n >>= 1;
+    }
+    return rev;
+}
+
+int main() {
+    uint32_t num = 43261596;  // Example input
+    cout << "Reversed Bits: " << reverseBits(num) << endl;
+    return 0;
+}
+
+==================================================================================================
+7. Power of Four
+---------------+
+
+#include <iostream>
+using namespace std;
+
+bool isPowerOfFour(int num) {
+    return (num > 0) && ((num & (num - 1)) == 0) && (num % 3 == 1);
+}
+
+int main() {
+    int num = 16;
+    cout << num << " is " << (isPowerOfFour(num) ? "a power of 4" : "not a power of 4") << endl;
+    return 0;
+}
+
+==================================================================================================
+
+8. Hamming Distance
+------------------+
+
+#include <iostream>
+using namespace std;
+
+int hammingDistance(int x, int y) {
+    int xorValue = x ^ y, count = 0;
+    while (xorValue) {
+        count += xorValue & 1;
+        xorValue >>= 1;
+    }
+    return count;
+}
+
+int main() {
+    int x = 1, y = 4;
+    cout << "Hamming Distance: " << hammingDistance(x, y) << endl;
+    return 0;
+}
+
+==================================================================================================
+9. Decode XORed Array
+--------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> decode(vector<int>& encoded, int first) {
+    vector<int> arr;
+    arr.push_back(first);
+    for (int num : encoded) {
+        arr.push_back(arr.back() ^ num);
+    }
+    return arr;
+}
+
+int main() {
+    vector<int> encoded = {1, 2, 3};
+    int first = 1;
+    vector<int> decoded = decode(encoded, first);
+
+    cout << "Decoded Array: ";
+    for (int num : decoded) {
+        cout << num << " ";
+    }
+    cout << endl;
+    return 0;
+}
+
+====================================================================================================
+10. Single Number
+----------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int singleNumber(vector<int>& nums) {
+    int result = 0;
+    for (int num : nums) {
+        result ^= num;
+    }
+    return result;
+}
+
+int main() {
+    vector<int> nums = {4, 1, 2, 1, 2};
+    cout << "Single Number: " << singleNumber(nums) << endl;
+    return 0;
+}
