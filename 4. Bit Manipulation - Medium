@@ -1,0 +1,251 @@
+=======================================================================================
+1. Total Hamming Distance (Medium)
+---------------------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int totalHammingDistance(vector<int>& nums) {
+    int total = 0, n = nums.size();
+    for (int i = 0; i < 32; i++) {
+        int count = 0;
+        for (int num : nums) {
+            count += (num >> i) & 1;
+        }
+        total += count * (n - count);
+    }
+    return total;
+}
+
+int main() {
+    vector<int> nums = {4, 14, 2};
+    cout << "Total Hamming Distance: " << totalHammingDistance(nums) << endl;
+    return 0;
+}
+
+=======================================================================================
+
+=======================================================================================
+2. Single Number II (Medium)
+---------------------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int singleNumber(vector<int>& nums) {
+    int ones = 0, twos = 0;
+    for (int num : nums) {
+        ones = (ones ^ num) & ~twos;
+        twos = (twos ^ num) & ~ones;
+    }
+    return ones;
+}
+
+int main() {
+    vector<int> nums = {2, 2, 3, 2};
+    cout << "Single Number: " << singleNumber(nums) << endl;
+    return 0;
+}
+
+=======================================================================================
+
+=======================================================================================
+3. Single Number III (Medium)
+---------------------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> singleNumber(vector<int>& nums) {
+    int xorAll = 0;
+    for (int num : nums) xorAll ^= num;
+
+    int diffBit = xorAll & -xorAll;  // Get rightmost set bit
+    int num1 = 0, num2 = 0;
+    for (int num : nums) {
+        if (num & diffBit) num1 ^= num;
+        else num2 ^= num;
+    }
+    return {num1, num2};
+}
+
+int main() {
+    vector<int> nums = {1, 2, 1, 3, 2, 5};
+    vector<int> result = singleNumber(nums);
+    cout << "Single Numbers: " << result[0] << ", " << result[1] << endl;
+    return 0;
+}
+
+=======================================================================================
+
+=======================================================================================
+4. Sum of Two Integers (Medium)
+---------------------------------+
+
+#include <iostream>
+using namespace std;
+
+int getSum(int a, int b) {
+    while (b != 0) {
+        int carry = (a & b) << 1;
+        a = a ^ b;
+        b = carry;
+    }
+    return a;
+}
+
+int main() {
+    cout << "Sum: " << getSum(3, 5) << endl;
+    return 0;
+}
+
+=======================================================================================
+
+=======================================================================================
+5. Decode XORed Permutation (Easy)
+---------------------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> decode(vector<int>& encoded) {
+    int n = encoded.size() + 1;
+    int totalXor = 0, xorFrom1 = 0;
+
+    for (int i = 1; i <= n; i++) totalXor ^= i;
+    for (int i = 1; i < n - 1; i += 2) xorFrom1 ^= encoded[i];
+
+    vector<int> perm(n);
+    perm[0] = totalXor ^ xorFrom1;
+    for (int i = 0; i < n - 1; i++) perm[i + 1] = perm[i] ^ encoded[i];
+
+    return perm;
+}
+
+=======================================================================================
+
+=======================================================================================
+6. Find Original Array of Prefix XOR (Medium)
+---------------------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> findArray(vector<int>& pref) {
+    vector<int> arr(pref.size());
+    arr[0] = pref[0];
+
+    for (int i = 1; i < pref.size(); i++)
+        arr[i] = pref[i] ^ pref[i - 1];
+
+    return arr;
+}
+
+=======================================================================================
+
+=======================================================================================
+7. Gray Code (Medium)
+---------------------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> grayCode(int n) {
+    vector<int> res(1 << n);
+    for (int i = 0; i < (1 << n); i++)
+        res[i] = i ^ (i >> 1);
+    return res;
+}
+
+=======================================================================================
+
+=======================================================================================
+8. XOR Queries of a Subarray (Medium)
+------------------------------------+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
+    int n = arr.size();
+    vector<int> prefixXor(n + 1, 0), result;
+
+    for (int i = 0; i < n; i++)
+        prefixXor[i + 1] = prefixXor[i] ^ arr[i];
+
+    for (auto& q : queries)
+        result.push_back(prefixXor[q[1] + 1] ^ prefixXor[q[0]]);
+
+    return result;
+}
+
+=======================================================================================
+
+=======================================================================================
+9. XOR Sequences (Medium)
+---------------------------------+
+
+long long computeXOR(long long n) {
+    if (n % 4 == 0) return n;
+    if (n % 4 == 1) return 1;
+    if (n % 4 == 2) return n + 1;
+    return 0;
+}
+
+=======================================================================================
+
+=======================================================================================
+10. Minimum Number of Operations to Make Array XOR Equal to K (Medium)
+---------------------------------------------------------------------+
+
+#include <iostream>
+using namespace std;
+
+int minOperations(int x, int k) {
+    return __builtin_popcount(x ^ k);
+}
+
+=======================================================================================
+
+
+=======================================================================================
+11. Maximum XOR Product (Medium)
+-------------------------------+
+
+long long maxXorProduct(int a, int b) {
+    return 1LL * a * b;
+}
+
+
+========================================================================================
+
+=======================================================================================
+12. Neighboring Bitwise XOR (Medium)
+-----------------------------------+
+
+int minChanges(vector<int>& nums) {
+    return nums.size() / 2;
+}
+
+=======================================================================================
+
+=======================================================================================
+13. Find XOR Sum of All Pairs Bitwise AND (Medium)
+-------------------------------------------------+
+
+int xorSum(vector<int>& arr1, vector<int>& arr2) {
+    int x1 = 0, x2 = 0;
+    for (int num : arr1) x1 ^= num;
+    for (int num : arr2) x2 ^= num;
+    return x1 & x2;
+}
+
+
+=======================================================================================
